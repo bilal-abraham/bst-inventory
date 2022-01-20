@@ -18,7 +18,7 @@ export default class BST {
 	 * @returns -1 => a < b || 0 => a === b || 1 => a > b
 	 */
 	#comparator = (a, b) => {
-		throw 'Comparator not set';
+		throw 'Comparator Not Set';
 	};
 	constructor(comparator) {
 		this.root = null;
