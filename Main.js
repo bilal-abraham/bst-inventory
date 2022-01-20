@@ -12,12 +12,9 @@ for (let i = 0; i < lines.length; i++) {
 	bst.add(lines[i]);
 }
 
-const content = 'Some MORE content';
+let inOrderLines = bst.inOrder();
 
-try {
-	writeFileSync('docs/storeData.txt', content + '\n', { flag: 'a+' });
-} catch (err) {
-	console.error(err);
-}
-
-console.log(bst.root);
+for (const line of inOrderLines)
+	writeFileSync('docs/storeData.txt', JSON.stringify(line) + '\n', {
+		flag: 'a+',
+	});

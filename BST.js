@@ -25,7 +25,7 @@ export default class BST {
 		this.#comparator = comparator;
 	}
 	/**
-	 * adds a node to the binary search tree
+	 * adds a node to the bst
 	 * @param {JSON} data the JSON item that is passed in
 	 */
 	add(data) {
@@ -47,6 +47,15 @@ export default class BST {
 		if (this.root === null) this.root = node;
 		else addHelper(this.root, node);
 	}
+	/**
+	 * removes a node from the bst
+	 * @param {JSON} data
+	 */
+	remove(data) {}
+	/**
+	 * does an inOrder traversal of the BST then
+	 * @returns {Array} rtnList of the inOrder traversal of the BST
+	 */
 	inOrder() {
 		const rtnList = [];
 		const inOrderHelper = (node) => {
