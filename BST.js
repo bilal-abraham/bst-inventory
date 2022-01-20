@@ -10,62 +10,51 @@ export default class BST {
 			return this.data;
 		}
 	};
-
 	#root = null;
-
 	/**
-	 * if the newNode (b) is "less" than the pivot (a) === -1
+	 * measures < & > based on comparator function passed in
 	 * @param {BST.Node} a pivot node being analyzed
-	 * @param {BST.Node} b newNode to be instered
+	 * @param {BST.Node} b newNode to be inserted
 	 * @returns -1 => a < b || 0 => a === b || 1 => a > b
 	 */
 	#comparator = (a, b) => {
 		throw 'Comparator not set';
 	};
-
 	constructor(comparator) {
 		this.root = null;
 		this.#comparator = comparator;
 	}
-
 	/**
 	 * adds a node to the binary search tree
-	 * @param {Object} data the JSON item that is passed in
+	 * @param {JSON} data the JSON item that is passed in
 	 */
 	add(data) {
 		const node = new BST.Node(data);
-		// root is null then node will be added to the tree and made root.
+		/**
+		 * correctly places node in question in the BST using the comparator func of the class
+		 * @param {BST.Node} currNode pivot node being analyzed
+		 * @param {BST.Node} newNode node to be inserted
+		 */
+		const addHelper = (currNode, newNode) => {
+			if (this.#comparator(currNode.getData().name, newNode.getData().name) === 1) {
+				if (currNode.left === null) currNode.left = newNode;
+				else addHelper(currNode.left, newNode);
+			} else {
+				if (currNode.right === null) currNode.right = newNode;
+				else addHelper(currNode.right, newNode);
+			}
+		};
 		if (this.root === null) this.root = node;
-		// find the correct position in the tree and add the node
-		else this.addNode(this.root, node);
+		else addHelper(this.root, node);
 	}
-
-	/**
-	 * insterts a node into the BST
-	 * @param {BST.Node} currNode pivot node being analyzed
-	 * @param {BST.Node} newNode node to be instered
-	 */
-	addNode(currNode, newNode) {
-		// if the data is less than the node data move left of the tree
-		if (this.#comparator(currNode.getData().name, newNode.getData().name) === 1) {
-			// if left is null insert node here
-			if (currNode.left === null) currNode.left = newNode;
-			// if left is not null recur until null is found
-			else this.addNode(currNode.left, newNode);
-		}
-		// if the data is more than the node data move right of the tree
-		else {
-			// if right is null insert node here
-			if (currNode.right === null) currNode.right = newNode;
-			// if right is not null recur until null is found
-			else this.addNode(currNode.right, newNode);
-		}
+	inOrder() {
+		const rtnList = [];
+		const inOrderHelper = (node) => {
+			if (node?.left) inOrderHelper(node.left);
+			if (node) rtnList.push(node.data);
+			if (node?.right) inOrderHelper(node.right);
+		};
+		inOrderHelper(this.root);
+		return rtnList;
 	}
-
-	remove(data) {}
-	inOrder() {}
-
-	// Private Methods -- new to ECMA2022
-	#removeNode(node) {}
-	#findNode(data) {}
 }
