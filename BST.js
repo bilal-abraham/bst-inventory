@@ -1,3 +1,4 @@
+import Item from './Item.js';
 export default class BST {
 	static Node = class {
 		constructor(data) {
@@ -5,12 +6,17 @@ export default class BST {
 			this.left = null;
 			this.right = null;
 		}
-
+		/**
+		 * getter for this.data
+		 * @returns a nodes data attribute
+		 */
 		getData() {
 			return this.data;
 		}
 	};
+
 	#root = null;
+
 	/**
 	 * measures < & > based on comparator function passed in
 	 * @param {BST.Node} a pivot node being analyzed
@@ -18,12 +24,14 @@ export default class BST {
 	 * @returns -1 => a < b || 0 => a === b || 1 => a > b
 	 */
 	#comparator = (a, b) => {
-		throw 'Comparator Not Set';
+		throw '**** Comparator Not Set ****';
 	};
+
 	constructor(comparator) {
 		this.root = null;
 		this.#comparator = comparator;
 	}
+
 	/**
 	 * adds a node to the bst
 	 * @param {JSON} data the JSON item that is passed in
@@ -47,11 +55,18 @@ export default class BST {
 		if (this.root === null) this.root = node;
 		else addHelper(this.root, node);
 	}
+
 	/**
 	 * removes a node from the bst
 	 * @param {JSON} data
 	 */
 	remove(data) {}
+
+	/**
+	 * method to groupObjectsBy
+	 */
+	groupNodes() {}
+
 	/**
 	 * does an inOrder traversal of the BST then
 	 * @returns {Array} rtnList of the inOrder traversal of the BST
