@@ -15,12 +15,10 @@ for (let i = 0; i < lines.length; i++) {
 const inOrderLines = bst.inOrder();
 
 const groupBy = (arr, key) =>
-	arr.reduce((previous, currentItem) => {
-		const group = currentItem[key];
-		if (!previous[group]) previous[group] = [];
-		previous[group].push(currentItem);
-		return previous;
-	}, {});
+	arr.reduce(
+		(p, c, _, __, group = c[key]) => ((p[group] || (p[group] = [])).push(c), p),
+		{}
+	);
 
 console.log(groupBy(inOrderLines, 'name'));
 
