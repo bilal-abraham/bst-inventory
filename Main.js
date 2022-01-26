@@ -10,13 +10,10 @@ let bst = new BST(comparatorFunction);
 for (let i = 0; i < lines.length; i++) {
 	lines[i] = JSON.parse(lines[i]);
 	lines[i].cost = parseInt(lines[i].cost.replace('$', ''));
-
 	bst.add(lines[i]);
 }
 
 const inOrderLines = bst.inOrder();
-
-console.log(inOrderLines);
 
 const groupBy = (arr, key) =>
 	arr.reduce(
@@ -24,10 +21,7 @@ const groupBy = (arr, key) =>
 		{}
 	);
 
-// let output = groupBy(inOrderLines, 'name');zxsx
-// console.log(output);
-
-const reduced = inOrderLines.reduce((p, c) => {
+const reducedLines = inOrderLines.reduce((p, c) => {
 	if (!p[c.name]) {
 		p[c.name] = { ...c, count: 1 };
 		return p;
@@ -38,8 +32,8 @@ const reduced = inOrderLines.reduce((p, c) => {
 	return p;
 }, {});
 
-const result = Object.keys(reduced).map((x) => {
-	const item = reduced[x];
+const result = Object.keys(reducedLines).map((x) => {
+	const item = reducedLines[x];
 	return {
 		name: item.name,
 		stock: item.stock,
@@ -47,7 +41,8 @@ const result = Object.keys(reduced).map((x) => {
 	};
 });
 
-for (const line of result)
+for (const line of result) {
 	writeFileSync('data/storeData.txt', JSON.stringify(line) + '\n', {
 		flag: 'a+',
 	});
+}
