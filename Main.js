@@ -37,7 +37,7 @@ const result = Object.keys(reducedLines).map((x) => {
 	return {
 		name: item.name,
 		stock: item.stock,
-		cost: item.cost / item.count,
+		cost: Math.round(100 * (item.cost / item.count)) / 100,
 	};
 });
 
