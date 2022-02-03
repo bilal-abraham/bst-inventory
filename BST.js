@@ -1,17 +1,9 @@
-import Item from './Item.js';
 export default class BST {
 	static Node = class {
 		constructor(data) {
 			this.data = data;
 			this.left = null;
 			this.right = null;
-		}
-		/**
-		 * getter for this.data
-		 * @returns a nodes data attribute
-		 */
-		getData() {
-			return this.data;
 		}
 	};
 
@@ -34,17 +26,17 @@ export default class BST {
 
 	/**
 	 * adds a node to the bst
-	 * @param {JSON} data the JSON item that is passed in
+	 * @param {Item} data the JSON item that is passed in
 	 */
 	add(data) {
 		const node = new BST.Node(data);
 		/**
-		 * correctly places node in question in the BST using the comparator func of the class
+		 * correctly places node in question in the BST using the comparator
 		 * @param {BST.Node} currNode pivot node being analyzed
 		 * @param {BST.Node} newNode node to be inserted
 		 */
 		const addHelper = (currNode, newNode) => {
-			if (this.#comparator(currNode.getData().name, newNode.getData().name) === 1) {
+			if (this.#comparator(currNode.data, newNode.data) === 1) {
 				if (currNode.left === null) currNode.left = newNode;
 				else addHelper(currNode.left, newNode);
 			} else {
@@ -58,14 +50,32 @@ export default class BST {
 
 	/**
 	 * removes a node from the bst
-	 * @param {JSON} data
+	 * @param {Item} data
 	 */
-	remove(data) {}
-
-	/**
-	 * method to groupObjectsBy
-	 */
-	groupNodes() {}
+	remove(data) {
+		const removeHelper = (node, data) => {
+			if (!node) return null;
+			if (this.#comparator(data, node.data) === 0) {
+				if (!node.left && !node.right) return null;
+				if (!node.left) return node.right;
+				if (!node.right) return node.left;
+				let tmp = node.right;
+				while (!tmp.left) {
+					tmp = tmp.left;
+				}
+				node.data = tmp.data;
+				node.right = removeHelper(node.right, tmp.data);
+			} else if (this.#comparator(data, node.data) === -1) {
+				node.left = removeHelper(node.left, data);
+				return node;
+			} else {
+				node.right = removeHelper(node.right, data);
+				return node;
+			}
+		};
+		this.root = removeHelper(this.root, data);
+		return data;
+	}
 
 	/**
 	 * does an inOrder traversal of the BST then
