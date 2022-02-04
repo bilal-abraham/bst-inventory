@@ -1,14 +1,13 @@
 export default class Item {
-	name = ''; // cannot be null
+	name = '';
 	stock = 0;
-	cost = 0.0; // cannot be negative
+	cost = 0.0;
 	constructor(name) {
 		if (!name) name = '';
 		this.name = name;
 		this.stock = 0;
 		this.cost = 0.0;
 	}
-
 	/**
 	 * @param {String} _name
 	 */
@@ -32,9 +31,7 @@ export default class Item {
 	 * @param {Number} _cost
 	 */
 	set cost(_cost) {
-		if (_cost < 0) return false;
 		this.cost = _cost;
-		return true;
 	}
 	get cost() {
 		return this.cost;

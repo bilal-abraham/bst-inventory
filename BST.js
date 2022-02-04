@@ -53,27 +53,61 @@ export default class BST {
 	 * @param {Item} data
 	 */
 	remove(data) {
-		const removeHelper = (node, data) => {
-			if (!node) return null;
-			if (this.#comparator(data, node.data) === 0) {
-				if (!node.left && !node.right) return null;
-				if (!node.left) return node.right;
-				if (!node.right) return node.left;
-				let tmp = node.right;
-				while (!tmp.left) {
-					tmp = tmp.left;
-				}
-				node.data = tmp.data;
-				node.right = removeHelper(node.right, tmp.data);
-			} else if (this.#comparator(data, node.data) === -1) {
-				node.left = removeHelper(node.left, data);
-				return node;
-			} else {
-				node.right = removeHelper(node.right, data);
-				return node;
+		const removeHelper = (parent, remove) => {
+			let isLeftChild = true;
+			if (parent.right === remove) {
+				isLeftChild = false;
 			}
+			let pointHere = remove.left;
+			if (remove.left === null) {
+				pointHere = remove.right;
+			}
+			if (isLeftChild) {
+				parent.left = pointHere;
+			} else {
+				parent.right = pointHere;
+			}
+			return remove.data;
 		};
-		this.root = removeHelper(this.root, data);
+		let p = null;
+		let r = this.root;
+		while (r !== null) {
+			if (this.#comparator(r.data, data) < 0) {
+				p = r;
+				r = r.right;
+			} else if (this.#comparator(r.data, data) > 0) {
+				p = r;
+				r = r.left;
+			} else {
+				if (p === null && r.left !== null && r.left !== null) {
+					let rightLeftChild = r.left;
+					let parentRightLeftChild = r;
+					while (rightLeftChild.right !== null) {
+						parentRightLeftChild = rightLeftChild;
+						rightLeftChild = rightLeftChild.right;
+					}
+					let t = r.data;
+					r.data = rightLeftChild.data;
+					rightLeftChild.data = t;
+					return removeHelper(parentRightLeftChild, rightLeftChild);
+				} else {
+					if (r.left !== null && r.right !== null) {
+						let rp = r;
+						let removeOne = rp.left;
+						while (removeOne.right !== null) {
+							rp = removeOne;
+							removeOne = removeOne.right;
+						}
+						let t = r.data;
+						r.data = removeOne.data;
+						removeOne.data = t;
+						return removeHelper(rp, removeOne);
+					} else {
+						return removeHelper(p, r);
+					}
+				}
+			}
+		}
 		return data;
 	}
 
