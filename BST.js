@@ -6,9 +6,7 @@ export default class BST {
 			this.right = null;
 		}
 	};
-
 	#root = null;
-
 	/**
 	 * measures < & > based on comparator function passed in
 	 * @param {BST.Node} a pivot node being analyzed
@@ -18,12 +16,10 @@ export default class BST {
 	#comparator = (a, b) => {
 		throw '**** Comparator Not Set ****';
 	};
-
 	constructor(comparator) {
 		this.root = null;
 		this.#comparator = comparator;
 	}
-
 	/**
 	 * adds a node to the bst
 	 * @param {Item} data the JSON item that is passed in
@@ -55,23 +51,16 @@ export default class BST {
 	remove(data) {
 		const removeHelper = (parent, remove) => {
 			let isLeftChild = true;
-			if (parent.right === remove) {
-				isLeftChild = false;
-			}
+			if (parent.right === remove) isLeftChild = false;
 			let pointHere = remove.left;
-			if (remove.left === null) {
-				pointHere = remove.right;
-			}
-			if (isLeftChild) {
-				parent.left = pointHere;
-			} else {
-				parent.right = pointHere;
-			}
+			if (remove.left === null) pointHere = remove.right;
+			if (isLeftChild) parent.left = pointHere;
+			else parent.right = pointHere;
 			return remove.data;
 		};
 		let p = null;
 		let r = this.root;
-		while (r !== null) {
+		while (r) {
 			if (this.#comparator(r.data, data) < 0) {
 				p = r;
 				r = r.right;
@@ -79,10 +68,10 @@ export default class BST {
 				p = r;
 				r = r.left;
 			} else {
-				if (p === null && r.left !== null && r.left !== null) {
+				if (!p && r.left && r.left) {
 					let rightLeftChild = r.left;
 					let parentRightLeftChild = r;
-					while (rightLeftChild.right !== null) {
+					while (rightLeftChild.right) {
 						parentRightLeftChild = rightLeftChild;
 						rightLeftChild = rightLeftChild.right;
 					}
@@ -91,10 +80,10 @@ export default class BST {
 					rightLeftChild.data = t;
 					return removeHelper(parentRightLeftChild, rightLeftChild);
 				} else {
-					if (r.left !== null && r.right !== null) {
+					if (r.left && r.right) {
 						let rp = r;
 						let removeOne = rp.left;
-						while (removeOne.right !== null) {
+						while (removeOne.right) {
 							rp = removeOne;
 							removeOne = removeOne.right;
 						}

@@ -15,6 +15,9 @@ export default class Item {
 		if (_name) this.name = _name;
 		else this.name = '';
 	}
+	/**
+	 * @returns name variable
+	 */
 	get name() {
 		return this.name;
 	}
@@ -24,6 +27,9 @@ export default class Item {
 	set stock(_stock) {
 		this.stock = _stock;
 	}
+	/**
+	 * @returns stock variable
+	 */
 	get stock() {
 		return this.stock;
 	}
@@ -33,6 +39,9 @@ export default class Item {
 	set cost(_cost) {
 		this.cost = _cost;
 	}
+	/**
+	 * @returns cost variable
+	 */
 	get cost() {
 		return this.cost;
 	}
